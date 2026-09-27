@@ -1,3 +1,0 @@
-# Rozvalet
-
-Site repository.
