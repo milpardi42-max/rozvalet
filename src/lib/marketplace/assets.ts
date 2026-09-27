@@ -731,7 +731,10 @@ export async function artistSharePct(artistId: string | null): Promise<number> {
   const { getContent } = await import("@/lib/data/store");
   const content = await getContent();
   const artist = content.artists.find((item) => item.id === artistId);
-  return artist?.revenueSharePct ?? DEFAULT_ARTIST_SHARE_PCT;
+  if (artist?.revenueSharePct !== undefined && artist.revenueSharePct > 0) {
+    return artist.revenueSharePct;
+  }
+  return content.financialConfig?.defaultArtistSharePct ?? DEFAULT_ARTIST_SHARE_PCT;
 }
 
 export async function artistDisplayName(artistId: string | null): Promise<Localized> {

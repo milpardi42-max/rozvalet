@@ -437,15 +437,21 @@ function ArtistDetailDrawer({
 
           {/* Revenue / License */}
           <div className="space-y-1 rounded-xl border border-gray-100 p-3">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-400">قرارداد</p>
-            {artist.revenueSharePct !== undefined && (
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">سهم درآمد</span>
-                <span className="font-semibold text-gray-800">{artist.revenueSharePct}٪</span>
-              </div>
-            )}
+            <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-400">قرارداد و کمیسیون</p>
+            <div className="flex justify-between text-sm">
+              <span className="text-gray-500">سهم درآمد هنرمند</span>
+              <span className="font-semibold text-emerald-700">
+                {artist.revenueSharePct !== undefined ? `${artist.revenueSharePct}٪ (اختصاصی)` : "۷۰٪ (پیش‌فرض)"}
+              </span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-gray-500">کارمزد پلتفرم</span>
+              <span className="font-medium text-gray-600">
+                {artist.revenueSharePct !== undefined ? `${100 - artist.revenueSharePct}٪` : "۳۰٪"}
+              </span>
+            </div>
             {artist.licenseType && (
-              <div className="flex justify-between text-sm">
+              <div className="flex justify-between text-sm pt-1 border-t border-gray-100">
                 <span className="text-gray-500">نوع لایسنس</span>
                 <span className="font-semibold text-gray-800">
                   {artist.licenseType === "standard" ? "استاندارد" : artist.licenseType === "exclusive" ? "انحصاری" : "سفارشی"}

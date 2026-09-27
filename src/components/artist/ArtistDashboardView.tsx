@@ -279,6 +279,18 @@ export function ArtistDashboardView({ locale, data }: { locale: Locale; data: Ar
                   {fa ? `${faNum(data.sharePct)}٪ سهم` : `${data.sharePct}% share`}
                 </Badge>
               </div>
+
+              {/* Commission & Share Breakdown */}
+              <div className="mt-3.5 w-full rounded-xl border border-border/80 bg-background/60 p-2.5 text-[11px] shadow-xs">
+                <div className="flex items-center justify-between text-foreground-secondary">
+                  <span>{fa ? "سهم فروش هنرمند:" : "Your sales share:"}</span>
+                  <span className="font-bold text-emerald-600 dark:text-emerald-400">{faNum(data.sharePct)}٪</span>
+                </div>
+                <div className="mt-1.5 flex items-center justify-between text-foreground-secondary border-t border-border/40 pt-1">
+                  <span>{fa ? "کارمزد پلتفرم:" : "Platform fee:"}</span>
+                  <span className="font-medium text-muted">{faNum(100 - data.sharePct)}٪</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

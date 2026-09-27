@@ -823,6 +823,23 @@ export const hero: HeroContent = {
   featuredPatternIds: ["pattern-quiet-garden", "pattern-lapis-eslimi", "pattern-copper-damask", "pattern-dusty-bloom"],
 };
 
+export const financialConfig = {
+  defaultCommissionPct: 30,
+  defaultArtistSharePct: 70,
+  directCommissionPct: 0,
+  subscriptionPricing: {
+    proMonthly: { fa: 290000, en: 9 },
+    proAnnual: { fa: 2900000, en: 90 },
+    studioMonthly: { fa: 690000, en: 24 },
+    studioAnnual: { fa: 6900000, en: 240 },
+  },
+  minPayoutFa: 500000,
+  minPayoutEn: 25,
+  vatPct: 9,
+  affiliateCommissionPct: 10,
+  freeShippingThresholdFa: 2000000,
+};
+
 export const seedContent: SiteContent = {
-  categories, spaces, artists, patterns, products, portfolios, education, stories, collections, homeSections, banners, seo, hero, announcementBars,
+  categories, spaces, artists, patterns, products, portfolios, education, stories, collections, homeSections, banners, seo, hero, announcementBars, financialConfig,
 };

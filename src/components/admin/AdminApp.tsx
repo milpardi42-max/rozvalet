@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ArrowDown,
   ArrowUp,
+  Banknote,
   Bell,
   BookOpen,
   CalendarClock,
@@ -47,6 +48,7 @@ import { ArtistsManager } from "@/components/admin/ArtistsManager";
 import { PortfoliosManager } from "@/components/admin/PortfoliosManager";
 import { AcademyManager } from "@/components/admin/AcademyManager";
 import { ReservationsManager } from "@/components/admin/ReservationsManager";
+import { FinancialManager } from "@/components/admin/FinancialManager";
 import { useAuth, useLocale } from "@/components/providers/AppProviders";
 import { Button } from "@/components/ui/Button";
 import { Field, Input, Select, Textarea } from "@/components/ui/Input";
@@ -59,6 +61,7 @@ import type { Localized } from "@/lib/i18n/types";
 
 type Section =
   | "dashboard"
+  | "financial"
   | "buyers"
   | "reservations"
   | "artists-signup"
@@ -123,7 +126,10 @@ interface NavGroup {
 const NAV_GROUPS: NavGroup[] = [
   {
     label: "نمای کلی",
-    items: [{ id: "dashboard", label: "داشبورد", icon: <LayoutDashboard className="h-4 w-4" /> }],
+    items: [
+      { id: "dashboard", label: "داشبورد", icon: <LayoutDashboard className="h-4 w-4" /> },
+      { id: "financial", label: "تنظیمات مالی و کمیسیون‌ها", icon: <Banknote className="h-4 w-4" />, badge: "جدید" },
+    ],
   },
   {
     label: "ثبت‌نام‌کننده‌ها",
@@ -493,6 +499,9 @@ export function AdminApp() {
           ) : (
             <div key={section} className="anim-fade-up">
               {section === "dashboard" && <LiveDashboard data={data} setSection={setSection} />}
+              {section === "financial" && (
+                <FinancialManager data={data} update={update} onSave={save} />
+              )}
               {section === "buyers" && <BuyersManager />}
               {section === "reservations" && <ReservationsManager />}
               {section === "artists-signup" && <ArtistsSignupManager />}

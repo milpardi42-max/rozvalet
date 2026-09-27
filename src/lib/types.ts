@@ -545,6 +545,31 @@ export interface HeroContent {
   interactiveEnabled?: boolean;
 }
 
+export interface FinancialConfig {
+  /** Default platform commission percentage (e.g. 30%) */
+  defaultCommissionPct: number;
+  /** Default artist share percentage (e.g. 70%) */
+  defaultArtistSharePct: number;
+  /** Commission on direct artist custom projects (e.g. 0% for Pro) */
+  directCommissionPct: number;
+  /** Subscription Pricing */
+  subscriptionPricing: {
+    proMonthly: { fa: number; en: number };
+    proAnnual: { fa: number; en: number };
+    studioMonthly: { fa: number; en: number };
+    studioAnnual: { fa: number; en: number };
+  };
+  /** Minimum payout thresholds */
+  minPayoutFa: number;
+  minPayoutEn: number;
+  /** VAT tax percentage */
+  vatPct: number;
+  /** Affiliate commission % */
+  affiliateCommissionPct: number;
+  /** Free shipping minimum order total */
+  freeShippingThresholdFa: number;
+}
+
 export interface SiteContent {
   categories: Category[];
   spaces: Space[];
@@ -561,6 +586,8 @@ export interface SiteContent {
   hero: HeroContent;
   /** نوارهای اعلان قابل تنظیم از پنل ادمین */
   announcementBars: AnnouncementBarConfig[];
+  /** تنظیمات جامع مالی و کمیسیون‌های پلتفرم */
+  financialConfig?: FinancialConfig;
 }
 
 export type CollectionKey = Exclude<keyof SiteContent, "hero">;
