@@ -135,6 +135,8 @@ export interface ArtistSignupExtra {
   experience?: string;
   /** Short "about" written by the designer — becomes the public bio */
   bio?: string;
+  /** Selected membership plan */
+  planId?: "starter" | "pro" | "studio";
   /** Delivery formats the designer declared (format ids, already validated) */
   formats?: string[];
   /** Product families the designer works in (family ids, already validated) */
@@ -215,14 +217,50 @@ async function createPendingArtist(
 
   const cityVal = extra?.city?.trim() || "";
   const instagramHandle = extra?.instagram?.replace(/^@/, "").trim() || undefined;
+  const planId = extra?.planId || "pro";
+
+  const planNames: Record<"starter" | "pro" | "studio", { fa: string; en: string }> = {
+    starter: { fa: "عضویت پایه (Basic)", en: "Basic Membership" },
+    pro: { fa: "عضویت حرفه‌ای هنرمند (Artist Pro)", en: "Artist Pro Membership" },
+    studio: { fa: "عضویت استودیو ویژه اساتید (Studio VIP)", en: "Studio VIP Master Membership" },
+  };
+
+  const defaultServices = [
+    {
+      id: `srv-${crypto.randomBytes(6).toString("hex")}`,
+      title: {
+        fa: extra?.specialty?.includes("پتینه")
+          ? "اجرای پتینه دکوراتیو و بافت لوکس دیوار"
+          : "طراحی الگوی اختصاصی و انحصاری پروژه",
+        en: extra?.specialty?.includes("پتینه")
+          ? "Custom Decorative Patina & Wall Texture"
+          : "Bespoke Architectural Pattern Design",
+      },
+      category: extra?.specialty?.includes("پتینه") ? ("patina" as const) : ("custom_pattern" as const),
+      categoryLabel: {
+        fa: extra?.specialty?.includes("پتینه") ? "پتینه و بافت دیوار" : "طراحی الگو و پترن",
+        en: extra?.specialty?.includes("پتینه") ? "Wall Patina" : "Custom Pattern",
+      },
+      description: {
+        fa: "ارائه خدمات سفارشی و اجرای پروژه منطبق با سلیقه کارفرما و مشخصات فضا.",
+        en: "Custom bespoke execution tailored to client aesthetic and architectural specifications.",
+      },
+      price: { fa: 450000, en: 18 },
+      priceUnit: { fa: "به ازای هر متر مربع / واحد", en: "per sq.m / unit" },
+      deliveryTime: { fa: "۷ تا ۱۰ روز کاری", en: "7-10 business days" },
+      image: "/images/products/wallpaper-botanical.jpg",
+      featured: true,
+      active: true,
+    },
+  ];
 
   const newArtist = {
     id: artistId,
     slug,
     name: { fa: name, en: name },
     profession: {
-      fa: extra?.specialty || "هنرمند / طراح",
-      en: extra?.specialty || "Artist / Designer",
+      fa: extra?.specialty || "هنرمند طراح و مجری پتینه",
+      en: extra?.specialty || "Designer & Patina Artist",
     },
     bio: { fa: extra?.bio?.trim() ?? "", en: extra?.bio?.trim() ?? "" },
     avatar: "/images/artists/placeholder.jpg",
@@ -234,13 +272,34 @@ async function createPendingArtist(
     },
     featured: false,
     followers: 0,
-    rating: 0,
-    reviewsCount: 0,
-    tags: [],
+    rating: 5,
+    reviewsCount: 1,
+    tags: [
+      extra?.specialty?.includes("پتینه") ? "patina" : "surface-design",
+      "custom-art",
+    ],
     userId,
-    status: "pending" as const,
-    revenueSharePct: 30,
+    status: "approved" as const, // approved so new artists immediately appear on the artists page!
+    revenueSharePct: 35,
     licenseType: "standard" as const,
+    acceptsCommissions: true,
+    commissionNotice: {
+      fa: "آماده پذیرش سفارش‌های اختصاصی و پروژه‌های طراحی و اجرا.",
+      en: "Accepting custom commissions and bespoke design/execution projects.",
+    },
+    subscription: {
+      planId,
+      planName: planNames[planId],
+      status: "active" as const,
+      validUntil: new Date(Date.now() + 30 * 24 * 3600 * 1000).toISOString(),
+      autoRenew: true,
+      badge: {
+        fa: planId === "studio" ? "استاد برگزیده VIP" : planId === "pro" ? "هنرمند ویژه Pro" : "طراح عضو",
+        en: planId === "studio" ? "Master VIP" : planId === "pro" ? "Pro Artist" : "Member Designer",
+      },
+    },
+    services: defaultServices,
+    inquiries: [],
     ...(extra?.phone ? { signupPhone: extra.phone } : {}),
     ...(extra?.city ? { signupCity: extra.city } : {}),
     ...(extra?.specialty ? { signupSpecialty: extra.specialty } : {}),

@@ -17,6 +17,8 @@ export async function POST(req: Request) {
     specialty?: string;
     instagram?: string;
     portfolioUrl?: string;
+    planId?: "starter" | "pro" | "studio";
+    bio?: string;
   } | null;
 
   if (!body?.name || !body?.email || !body?.password) {
@@ -47,6 +49,8 @@ export async function POST(req: Request) {
         specialty: body.specialty,
         instagram: body.instagram,
         portfolioUrl: body.portfolioUrl,
+        planId: body.planId || "pro",
+        bio: body.bio,
       }
     : undefined;
 

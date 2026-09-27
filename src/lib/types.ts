@@ -22,6 +22,46 @@ export interface Space {
 
 export type ArtistStatus = "pending" | "approved" | "rejected";
 
+export interface ArtistServiceItem {
+  id: string;
+  title: Localized;
+  category: "patina" | "custom_pattern" | "canvas_art" | "interior_consulting" | "sculpture_craft" | "other";
+  categoryLabel?: Localized;
+  description: Localized;
+  price: { fa: number; en: number };
+  priceUnit?: Localized;
+  deliveryTime?: Localized;
+  image: string;
+  gallery?: string[];
+  featured?: boolean;
+  active?: boolean;
+}
+
+export interface ArtistSubscription {
+  planId: "starter" | "pro" | "studio";
+  planName: Localized;
+  status: "active" | "inactive" | "expired" | "trial";
+  validUntil: string;
+  autoRenew: boolean;
+  badge?: Localized;
+}
+
+export interface ClientInquiry {
+  id: string;
+  artistId: string;
+  serviceId?: string;
+  serviceTitle?: Localized;
+  clientName: string;
+  clientEmail: string;
+  clientPhone: string;
+  projectType: string;
+  scopeOrDimensions?: string;
+  estimatedBudget?: string;
+  message: string;
+  status: "pending" | "in_discussion" | "accepted" | "completed" | "archived";
+  createdAt: string;
+}
+
 export interface Artist {
   id: ID;
   slug: string;
@@ -70,6 +110,15 @@ export interface Artist {
   /** License text the artist's designs are sold under */
   licenseType?: "standard" | "exclusive" | "custom";
   licenseNote?: Localized;
+  /** Pro subscription details for exclusive showcase & features */
+  subscription?: ArtistSubscription;
+  /** Custom services & crafts offered (e.g. patina, wall finishes, bespoke canvas) */
+  services?: ArtistServiceItem[];
+  /** Direct client inquiries & project leads */
+  inquiries?: ClientInquiry[];
+  /** Flag whether accepting custom commissions / inquiries */
+  acceptsCommissions?: boolean;
+  commissionNotice?: Localized;
 }
 
 export interface PatternSpec {

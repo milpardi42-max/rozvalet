@@ -103,6 +103,8 @@ export default async function ArtistPage({ params }: Props) {
         <Breadcrumb items={breadcrumb} locale={locale} className="mb-4 text-white/60 [&_a]:text-white/60 [&_a:hover]:text-white [&_.text-foreground]:text-white [&_.text-foreground-secondary]:text-white/60 [&_.text-border]:text-white/25" />
       </ProfileHeader>
       <ProfileTabs
+        artist={artist}
+        services={artist.services ?? []}
         patterns={s.patterns.map((p) => enrichPattern(site, p))}
         products={s.products.map((p) => enrichProduct(site, p))}
         portfolios={s.portfolios.map((p) => enrichPortfolio(site, p))}

@@ -111,6 +111,7 @@ interface AuthCtx {
       studioName?: string;
       experience?: string;
       bio?: string;
+      planId?: "starter" | "pro" | "studio";
       formats?: string[];
       families?: string[];
       terms?: boolean;

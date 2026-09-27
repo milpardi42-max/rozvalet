@@ -110,6 +110,11 @@ export async function PUT(req: Request) {
     ...(body.tags !== undefined ? { tags: body.tags } : {}),
     ...(body.licenseType !== undefined ? { licenseType: body.licenseType } : {}),
     ...(body.licenseNote !== undefined ? { licenseNote: body.licenseNote } : {}),
+    ...(body.acceptsCommissions !== undefined ? { acceptsCommissions: body.acceptsCommissions } : {}),
+    ...(body.commissionNotice !== undefined ? { commissionNotice: body.commissionNotice } : {}),
+    ...(body.services !== undefined ? { services: body.services } : {}),
+    ...(body.subscription !== undefined ? { subscription: body.subscription } : {}),
+    ...(body.inquiries !== undefined ? { inquiries: body.inquiries } : {}),
     slug,
   };
 
