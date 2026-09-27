@@ -6,7 +6,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "prebuild": "node scripts/preserve-data.mjs --snapshot",
     "build": "next build",
     "postbuild": "node scripts/sync-standalone.mjs && node scripts/preserve-data.mjs --restore",

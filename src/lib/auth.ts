@@ -103,8 +103,12 @@ export async function verifyCredentials(
 }
 
 export async function getSession(): Promise<SessionUser | null> {
-  const store = await cookies();
-  return readSessionToken(store.get(SESSION_COOKIE)?.value);
+  try {
+    const store = await cookies();
+    return readSessionToken(store.get(SESSION_COOKIE)?.value);
+  } catch {
+    return null;
+  }
 }
 
 export function sessionCookieOptions() {
